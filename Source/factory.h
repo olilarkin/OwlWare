@@ -1,131 +1,110 @@
-#include "JotReverbPatch.hpp"
-#include "FreeVerbPatch.hpp"
-#include "PlateVerbPatch.hpp"
-#include "MoogPatch.hpp"
-#include "FourBandsEqPatch.hpp"
-#include "ParametricEqPatch.hpp"
-#include "mdaPorts/MdaBandistoPatch.hpp"
-#include "OverdrivePatch.hpp"
-#include "Faust/StereoWahPatch.hpp"
-#include "Faust/PitchShifterPatch.hpp"
-#include "PhaserPatch.hpp"
-#include "EnvelopeFilterPatch.hpp"
+#define SCALE kChromatic
+#define CLASS_NAME BollardsAutoTuneChromatic
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-#include "Faust/SmoothDelayPatch.hpp"
-#include "LpfDelayPatch.hpp"
-#include "SimpleStereoDelayPatch.hpp"
-#include "SlapBackEchoPatch.hpp"
-#include "PingPongDelayPatch.hpp"
-#include "DubDelayPatch.hpp"
-#include "TempoSyncedStereoDelayPatch.hpp"
-#include "TempoSyncedPingPongDelayPatch.hpp"
+#define SCALE kIonian
+#define CLASS_NAME BollardsAutoTuneIonian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-#include "PsycheFilterPatch.hpp"
-#include "Qompression.hpp"
-#include "Guitarix/GuitarixOverdrivePatch.hpp"
-#include "Guitarix/GuitarixOscTubePatch.hpp"
-#include "Guitarix/GuitarixDistortion1Patch.hpp"
-#include "Guitarix/GuitarixBMfpPatch.hpp"
-#include "Guitarix/GuitarixCompressorPatch.hpp"
-// #include "Guitarix/GuitarixDunwahPatch.hpp"
-#include "Guitarix/GuitarixMoogPatch.hpp"
-#include "Guitarix/GuitarixFlangerGXPatch.hpp"
-#include "Guitarix/GuitarixTonePatch.hpp"
-#include "ComplexorPatch.hpp"
-#include "DigitalMayhemPatch.hpp"
-#include "GhostNotePatch.hpp"
-#include "Faust/HarpAutoPatch.hpp"
-#include "Contest/SirenPatch.hpp"
-#include "VibroFlangePatch.hpp"
-#include "mdaPorts/MdaStereoPatch.hpp"
-#include "mdaPorts/MdaTransientPatch.hpp"
-#include "OliLarkin/XFMPatch.hpp"
+#define SCALE kDorian
+#define CLASS_NAME BollardsAutoTuneDorian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-#include "Faust/AutoWahPatch.hpp"
-#include "StereoPatch.hpp"
 
-// #include "RingModulatorPatch.hpp"
+#define SCALE kPhrygian
+#define CLASS_NAME BollardsAutoTunePhrygian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-#include "OliLarkin/BlipperPatch.hpp"
-#include "OliLarkin/DroneBoxPatch.hpp"
-#include "OliLarkin/StereoFreqShifterPatch.hpp"
-#include "OliLarkin/DualFreqShifterPatch.hpp"
-#include "OliLarkin/DualPitchShifterPatch.hpp"
-#include "OliLarkin/ThruZeroFlangerPatch.hpp"
-#include "OliLarkin/WeirdPhaserPatch.hpp"
-#include "OliLarkin/XFMPatch.hpp"
 
-/* #include "GainPatch.hpp" */
-/* #include "SimpleStereoDelayPatch.hpp" */
-/* #include "ParametricEqPatch.hpp" */
-/* #include "OverdrivePatch.hpp" */
-/* #include "PhaserPatch.hpp" */
-/* #include "StateVariableFilterPatch.hpp" */
-/* #include "ResonantFilterPatch.hpp" */
-/* #include "LeakyIntegratorPatch.hpp" */
-/* #include "FreeVerbPatch.hpp" */
-/* #include "OctaveDownPatch.hpp" */
-/* #include "StereoMixerPatch.hpp" */
-/* #include "SynthPatch.hpp" */
-/* #include "FourBandsEqPatch.hpp" */
-/* #include "JotReverbPatch.hpp" */
-/* /\\* #include "Contest/BiasedDelayPatch.hpp" *\\/ */
-/* /\\* #include "Contest/DualTremoloPatch.hpp" *\/ */
-/* #include "mdaPorts/MdaBandistoPatch.cpp" */
-/* #include "Qompression.hpp" */
-/* #include "PsycheFilterPatch.hpp" */
-/* #include "TremoloPatch.hpp" */
-/* #include "DigitalMayhemPatch.hpp" */
-/* #include "ReverseReverbPatch.hpp" */
-/* #include "SimpleDistortionPatch.hpp" */
-/* #include "MoogStereoPatch.hpp" */
-/* #include "LpfDelayPatch.hpp" */
-/* #include "BittaPatch.hpp" */
-/* #include "VidhaPatch.hpp" */
-/* /\* #include "OverOverPatch.hpp" *\/ */
-/* /\* #include "ToneFilterPatch.hpp" *\/ */
-/* #include "PlateVerbPatch.hpp" */
-/* #include "CompressorPatch.hpp" */
+#define SCALE kLydian
+#define CLASS_NAME BollardsAutoTuneLydian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-/* #include "Faust/FaustVerbPatch.hpp" */
-/* #include "Faust/HarpPatch.hpp" */
-/* #include "Faust/HarpAutoPatch.hpp" */
-/* #include "Faust/EchoPatch.hpp" */
-/* #include "Faust/SmoothDelayPatch.hpp" */
-/* #include "Faust/StereoEchoPatch.hpp" */
-/* #include "Faust/CrybabyPatch.hpp" */
-/* #include "Faust/StereoWahPatch.hpp" */
-/* #include "Faust/LowPassFilterPatch.hpp" */
-/* #include "Faust/LowShelfPatch.hpp" */
-/* #include "Faust/HighShelfPatch.hpp" */
-/* #include "Faust/PitchShifterPatch.hpp" */
 
-/* #include "Guitarix/GuitarixCompressorPatch.hpp" */
-/* #include "Guitarix/GuitarixPhaserPatch.hpp" */
-/* #include "Guitarix/GuitarixMoogPatch.hpp" */
-/* #include "Guitarix/GuitarixOverdrivePatch.hpp" */
-/* /\* #include "Guitarix/GuitarixPhaserMonoPatch.hpp" *\/ */
-/* #include "Guitarix/GuitarixOscTubePatch.hpp" */
-/* #include "Guitarix/GuitarixFlangerGXPatch.hpp" */
-/* #include "Guitarix/GuitarixDunwahPatch.hpp" */
-/* #include "Guitarix/GuitarixTonePatch.hpp" */
-/* #include "Guitarix/GuitarixBMfpPatch.hpp" */
-/* #include "Guitarix/GuitarixDistortion1Patch.hpp" */
+#define SCALE kMixolydian
+#define CLASS_NAME BollardsAutoTuneMixolydian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
 
-/* #include "Contest/SirenPatch.hpp" */
-/* #include "EnvelopeFilterPatch.hpp" */
 
-/* // #include "Contest/ConnyPatch.hpp" */
-/* #include "Faust/AutoWahPatch.hpp" */
-/* // #include "Faust/QompanderPatch.hpp" */
-/* // #include "SimpleDriveDelayPatch.hpp" */
-/* // #include "Autotalent/AutotalentPatch.hpp" */
-/* // #include "TemplatePatch.hpp" */
-/* // #include "TemplatePatch.hpp" */
-/* // #include "Contest/JumpDelay.hpp" /\* uses calloc and free *\/ */
-/* // #include "Contest/SampleJitterPatch.hpp" /\* requires juce::Random *\/ */
-/* // #include "Contest/SirenPatch.hpp" /\* causes assert_failed in DMA_GetFlagStatus() *\/ */
-/* // #include "LpfDelayPhaserPatch.hpp" /\* not compatible with Windows yet *\/ */
-/* // #include "WaveshaperPatch.hpp" /\* not compatible with Windows yet *\/ */
-/* // #include "TestTonePatch.hpp" */
-/* // #include "FlangerPatch.hpp" */
+#define SCALE kAeolian
+#define CLASS_NAME BollardsAutoTuneAeolian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kLocrian
+#define CLASS_NAME BollardsAutoTuneLocrian
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kWholetone
+#define CLASS_NAME BollardsAutoTuneWholetone
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kM7
+#define CLASS_NAME BollardsAutoTuneM7
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kDim7
+#define CLASS_NAME BollardsAutoTuneDim7
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kOctatonicA
+#define CLASS_NAME BollardsAutoTuneOctatonicA
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kOctatonicB
+#define CLASS_NAME BollardsAutoTuneOctatonicB
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kMajorPentatonic
+#define CLASS_NAME BollardsAutoTuneMajorPentatonic
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kMinorPentatonic
+#define CLASS_NAME BollardsAutoTuneMinorPentatonic
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
+#define SCALE kOctaves
+#define CLASS_NAME BollardsAutoTuneOctaves
+#include "Bollards/BollardsAutoTunePatch.hpp"
+#undef SCALE
+#undef CLASS_NAME
+
+
